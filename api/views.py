@@ -14,7 +14,7 @@ def get_weather(city):
     return response.json()
 
 
-def myapi(request):
+def help(request):
     visitor_name = request.GET.get('visitor_name', 'Guest')
     client_ip = request.META.get('REMOTE_ADDR')
 
