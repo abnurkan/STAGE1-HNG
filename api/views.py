@@ -1,9 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.conf import settings
-import json
 import requests
-from django.http import JsonResponse
 
 
 def get_weather(city):
@@ -20,24 +18,27 @@ def help(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
 
+    # Get location information using ipinfo.io
     try:
         response = requests.get(f'http://ipinfo.io/{ip}?token=84476190df868e')
         location_data = response.json()
         city = location_data.get('city', 'Unknown')
+        country = location_data.get('country', 'Unknown')
     except Exception as e:
         city = "Unknown"
         country = "Unknown"
 
-    
+
     # Get weather data
     weather_data = get_weather(city)
     temperature = weather_data['main'].get('temp', 'N/A')
-    
-    greeting = f"Hello, {visitor_name}!, the temperature is {temperature} degrees Celsius in {city}"
-   
-    response = {
-        'client_ip': ip,
-        'city': city,
-        'greeting': greeting
+
+    response_data = {
+        "client_ip": ip,
+        "location": city,
+        "greeting": f"{greeting}, the temperature is {temperature} degrees Celsius in {city}, {country}"
     }
-    return JsonResponse(response)
+
+
+    # Return the JSON response using Django's JsonResponse
+    return JsonResponse(response_data)
