@@ -23,7 +23,6 @@ def help(request):
         response = requests.get(f'http://ipinfo.io/{ip}?token=84476190df868e')
         location_data = response.json()
         city = location_data.get('city', 'Unknown')
-        country = location_data.get('country', 'Unknown')
     except Exception as e:
         city = "Unknown"
         country = "Unknown"
@@ -32,11 +31,12 @@ def help(request):
     # Get weather data
     weather_data = get_weather(city)
     temperature = weather_data['main'].get('temp', 'N/A')
+    greeting = f"Hello, {visitor_name}!"
 
     response_data = {
         "client_ip": ip,
         "location": city,
-        "greeting": f"{greeting}, the temperature is {temperature} degrees Celsius in {city}, {country}"
+        "greeting": f"{greeting}, the temperature is {temperature} degrees Celsius in {city}"
     }
 
 
