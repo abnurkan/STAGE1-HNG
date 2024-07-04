@@ -9,7 +9,7 @@ def get_weather(city):
     response = requests.get(url)
     return response.json()
 
-def help(request):
+def hello(request):
     visitor_name = request.GET.get('visitor_name')
     # Get user IP address
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
